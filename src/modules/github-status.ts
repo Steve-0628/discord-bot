@@ -18,14 +18,6 @@ export default class GitHubStatus extends Module {
     }),
   })
 
-  private readonly indicatorString: Record<z.infer<typeof this.schema>['status']['indicator'], string> = {
-    'none': '今はGitHubなんともないみたい！！',
-    'minor': 'GitHubにちょっとしたエラーが起きてるかも',
-    'major': 'GitHubにエラーが起きてるみたい',
-    'critical': 'GitHubに重大なエラーが起きてるみたい',
-    'maintenance': 'GitHubがメンテナンス中みたい',
-  }
-
   private indicator: z.infer<typeof this.schema>['status']['indicator'] = 'none'
   private description: z.infer<typeof this.schema>['status']['description'] = ''
 
@@ -68,7 +60,7 @@ export default class GitHubStatus extends Module {
       if (!channel.isText) return
 
       const textChannel = channel as TextChannel
-      textChannel.send(`${this.indicatorString[this.indicator]}\nせつめい: ${this.description}\nhttps://www.githubstatus.com/`)
+      textChannel.send(`${this.indicator}\n詳細: ${this.description}\nhttps://www.githubstatus.com/`)
 
       this.log('Report posted.')
       break
@@ -81,7 +73,7 @@ export default class GitHubStatus extends Module {
 
   mentionHook(message: Message) {
     if (message.content.toLowerCase().includes('github')) {
-      message.channel.send(`${this.indicatorString[this.indicator]}\nせつめい: ${this.description}\nhttps://www.githubstatus.com`)
+      message.channel.send(`${this.indicator}\n詳細: ${this.description}\nhttps://www.githubstatus.com`)
       return true
     } else {
       return false
