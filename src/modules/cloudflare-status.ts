@@ -58,7 +58,7 @@ export default class CloudflareStatus extends Module {
       if (!channel.isText) return
 
       const textChannel = channel as TextChannel
-      textChannel.send(`${this.indicator}\nせつめい: ${this.description}\nhttps://www.cloudflarestatus.com/`)
+      textChannel.send(`${this.indicator}\n詳細: ${this.description}\nhttps://www.cloudflarestatus.com/`)
 
       this.log('Report posted.')
       break
@@ -71,7 +71,7 @@ export default class CloudflareStatus extends Module {
 
   mentionHook(msg: Message) {
     if (msg.content.toLowerCase().includes('cloudflare')) {
-      msg.channel.send(`いまのCloudflareのステータスだよ！\n\nじょうきょう: ${this.indicator}\nせつめい: ${this.description}\nhttps://www.cloudflarestatus.com`)
+      msg.channel.send(`Cloudflare\n状態: ${this.indicator}\n詳細: ${this.description}\nhttps://www.cloudflarestatus.com`)
       return true
     } else {
       return false

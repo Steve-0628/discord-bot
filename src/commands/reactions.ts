@@ -4,16 +4,11 @@ import { Message } from 'discord.js'
 const reactionList: [string[] | RegExp, string][] = [
   [
     ['ping'],
-    '<:bibibi_nullcatchan:964103062102867980>'
+    'pong'
   ],
   [
     ['help'],
-    'n! index でぼくとお話しできるよ！\n' +
-		'主なコマンドはこれだよ！\n' +
-		'\n' +
-		'> `n! タイマー n(秒、分、時間)`  でタイマーがセットできるよ！\n' +
-		'> `n! github`  でGitHubの状態がわかるよ！\n' +
-		'> `n! cloudflare`  でCloudflareの状態がわかるよ！'
+    '!github !cloudflare !ping !help'
   ],
 ]
 
