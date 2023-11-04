@@ -32,9 +32,11 @@ client.on('messageCreate', async (message: Message) => {
   else if (!client.user) return
 	
   // regex for "twitter.com" and "x.com"
-  const regexp = /https:\/\/(www\.)?(twitter|x).com\/[a-zA-Z0-9_]+\/status\/[0-9]+/g
-  if(message.content.match(regexp)) {
-    console.log('regex matched!')
+  const statusId = /https:\/\/(www\.)?(twitter|x).com\/[a-zA-Z0-9_]+\/status\/(?<id>[0-9]+)/.exec(
+    message.content
+  )
+  if(statusId && statusId.groups && statusId.groups.id) {
+    message.channel.send(`https://vxtwitter.com/_/status/${statusId.groups.id}`)
   }
 	
   if (!(message.content.startsWith(PREFIX) || message.mentions.has(client.user.id))) return

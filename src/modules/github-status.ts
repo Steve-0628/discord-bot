@@ -1,7 +1,9 @@
 import { Client, Message, TextChannel } from 'discord.js'
 import Module from '../utils/module'
 import { z } from 'zod'
+import {boundClass} from 'autobind-decorator'
 
+@boundClass
 export default class GitHubStatus extends Module {
   constructor(client: Client) {
     super(client)
@@ -60,7 +62,7 @@ export default class GitHubStatus extends Module {
     case 'minor':
     case 'major':
     case 'critical': {
-      const channel = this.client.channels.cache.get('953451211158323290')
+      const channel = this.client.channels.cache.get(process.env.NOTIFY_CHANNEL_ID ?? '')
 
       if (!channel) return
       if (!channel.isText) return
