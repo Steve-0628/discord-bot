@@ -6,51 +6,58 @@ import Module from './utils/module'
 
 dotenv.config()
 
-const PREFIX = 'n! '
+const PREFIX = '!'
 
 const client = new Client({
-	intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
+  intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
 })
 
 let modules: Module[] | null
 
 client.once('ready', () => {
-	console.log('Ready!')
+  console.log('Ready!')
 
-	modules = Modules.map(Module => {
-		const module = new Module(client)
-		module.install()
+  modules = Modules.map(Module => {
+    const module = new Module(client)
+    module.install()
 
-		return module
-	})
+    return module
+  })
 
-	Object.freeze(modules)
+  Object.freeze(modules)
 })
 
 client.on('messageCreate', async (message: Message) => {
-	if (message.author.bot) return
-	else if (!client.user) return
-	else if (!(message.content.startsWith(PREFIX) || message.mentions.has(client.user.id))) return
+  if (message.author.bot) return
+  else if (!client.user) return
+	
+  // regex for "twitter.com" and "x.com"
+  const regexp = /https:\/\/(www\.)?(twitter|x).com\/[a-zA-Z0-9_]+\/status\/[0-9]+/g
+  if(message.content.match(regexp)) {
+    console.log('regex matched!')
+  }
+	
+  if (!(message.content.startsWith(PREFIX) || message.mentions.has(client.user.id))) return
 
-	const context = message.content
-		.replaceAll(PREFIX, '')
-		.replaceAll(`<@!${client.user.id}>`, '')
-		.trim()
+  const context = message.content
+    .replaceAll(PREFIX, '')
+    .replaceAll(`<@!${client.user.id}>`, '')
+    .trim()
 
-	const command = commands.find(command => {
-		if (Array.isArray(command.keyword)) return command.keyword.some(keyword => context === keyword)
+  const command = commands.find(command => {
+    if (Array.isArray(command.keyword)) return command.keyword.some(keyword => context === keyword)
 
-		else if (command.keyword instanceof RegExp) {
-			const match = context.match(command.keyword)
-			if (!match) return false
+    else if (command.keyword instanceof RegExp) {
+      const match = context.match(command.keyword)
+      if (!match) return false
 
-			command.match = match
-			return true
-		}
-	})
+      command.match = match
+      return true
+    }
+  })
 
-	command?.execute(message, command.match)
-	modules?.forEach(module => module.mentionHook(message))
+  command?.execute(message, command.match)
+  modules?.forEach(module => module.mentionHook(message))
 })
 
 client.login(process.env.TOKEN)

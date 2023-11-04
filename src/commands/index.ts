@@ -3,8 +3,8 @@ import reactions from './reactions'
 import timer from './timer'
 
 const commands: readonly Command<string[] | RegExp>[] = [
-	...reactions,
-	timer,
+  ...reactions,
+  timer,
 ]
 
 export default commands
