@@ -42,6 +42,7 @@ client.on('messageCreate', async (message: Message) => {
     message.content
   )
   if(amazonId && amazonId.groups && amazonId.groups.id && amazonId.groups.tld) {
+    message.suppressEmbeds(true)
     message.channel.send(`https://amazon.${amazonId.groups.tld}/dp/${amazonId.groups.id}`)
   }
 	
