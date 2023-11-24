@@ -38,6 +38,12 @@ client.on('messageCreate', async (message: Message) => {
   if(statusId && statusId.groups && statusId.groups.id) {
     message.channel.send(`https://vxtwitter.com/_/status/${statusId.groups.id}`)
   }
+  const amazonId = /https:\/\/(www\.)?(amazon)\.(?<tld>com|co\.jp)\/[a-zA-Z0-9_]+\/dp\/(?<id>[a-zA-Z0-9]+)/.exec(
+    message.content
+  )
+  if(amazonId && amazonId.groups && amazonId.groups.id && amazonId.groups.tld) {
+    message.channel.send(`https://amazon.${amazonId.groups.tld}/dp/${amazonId.groups.id}`)
+  }
 	
   if (!(message.content.startsWith(PREFIX) || message.mentions.has(client.user.id))) return
 
