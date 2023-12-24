@@ -70,7 +70,7 @@ running for: \`${((Date.now() - tracker.start) / 1000 / 60).toFixed(2)}\` Minute
       }, 1000)
       
       // Start the ffmpeg child process
-      const ffmpegProcess = cp.spawn(this.ffmpeg, [
+      const ffmpegProcess: cp.ChildProcess & { stdio: any[] } = cp.spawn(this.ffmpeg, [
         // Remove ffmpeg's console spamming
         '-loglevel', '0', '-hide_banner',
         // 3 second audio offset
