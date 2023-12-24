@@ -36,7 +36,7 @@ export default class YoutubeDL extends Module {
       }
       msg.channel.send(`Downloading ${id}...`)
         .then((stat) => {
-          ytdl(id)
+          ytdl(id, { quality: 'highest' })
             .pipe(fs.createWriteStream(`${this.videoPath}/${id}.mp4`))
             .on('finish', () => {
               stat.edit(`Download ${id} Complete!`)
