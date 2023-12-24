@@ -8,7 +8,7 @@ const reactionList: [string[] | RegExp, string][] = [
   ],
   [
     ['help'],
-    '!github !cloudflare !ping !help'
+    '!github !cloudflare !ping !help !ytdl !play !leave'
   ],
 ]
 

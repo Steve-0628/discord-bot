@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore . --fix"
   },
   "dependencies": {
+    "@discordjs/voice": "^0.16.1",
     "autobind-decorator": "^2.4.0",
     "discord.js": "^13.17.1",
     "dotenv": "^16.3.1",
