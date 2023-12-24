@@ -72,7 +72,7 @@ export default class GitHubStatus extends Module {
   }
 
   mentionHook(message: Message) {
-    if (message.content.toLowerCase().includes('github')) {
+    if (message.content.toLowerCase().startsWith('!github')) {
       message.channel.send(`${this.indicator}\n詳細: ${this.description}\nhttps://www.githubstatus.com`)
       return true
     } else {

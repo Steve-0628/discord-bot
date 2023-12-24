@@ -70,7 +70,7 @@ export default class CloudflareStatus extends Module {
   }
 
   mentionHook(msg: Message) {
-    if (msg.content.toLowerCase().includes('cloudflare')) {
+    if (msg.content.toLowerCase().startsWith('!cloudflare')) {
       msg.channel.send(`Cloudflare\n状態: ${this.indicator}\n詳細: ${this.description}\nhttps://www.cloudflarestatus.com`)
       return true
     } else {
