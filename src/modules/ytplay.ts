@@ -35,10 +35,8 @@ export default class YoutubePlay extends Module {
       }
       
       await msg.channel.send(`Playing ${id}...`)
-      
-      // Get audio and video stream going
-      const audio = ytdl(id, { quality: 'highestaudio' })
 
+      const audio = ytdl(id, { filter: 'audioonly', quality: 'highestaudio' })
       const vc = getVoiceConnection(msg.channel.guild.id) || joinVoiceChannel({
         channelId: msg.channel.id,
         guildId: msg.guildId as string,
@@ -46,8 +44,7 @@ export default class YoutubePlay extends Module {
       })
       const player = createAudioPlayer()
       vc.subscribe(player)
-      
-        
+
       const resource = createAudioResource(audio)
       player.play(resource)
 

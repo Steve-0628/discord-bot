@@ -9,7 +9,7 @@ dotenv.config()
 const PREFIX = '!'
 
 const client = new Client({
-  intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
+  intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES'],
 })
 
 let modules: Module[] | null
