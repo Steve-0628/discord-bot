@@ -11,7 +11,7 @@ export default abstract class Module {
 
   public abstract install(): void
 
-  public abstract mentionHook(message: Message): boolean
+  public abstract mentionHook(message: Message): boolean | Promise<boolean>
 
   protected log(message: string) {
     console.log(`[${this.name}]: ${message}`)

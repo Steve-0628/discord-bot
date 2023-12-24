@@ -66,7 +66,12 @@ client.on('messageCreate', async (message: Message) => {
   })
 
   command?.execute(message, command.match)
-  modules?.forEach(module => module.mentionHook(message))
+  if (modules) {
+    for (const module of modules) {
+      const result = await module.mentionHook(message)
+      if (result) break
+    }
+  }
 })
 
 client.login(process.env.TOKEN)
