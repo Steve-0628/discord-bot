@@ -2,7 +2,7 @@ import { Client, Message, VoiceChannel } from 'discord.js'
 import { joinVoiceChannel, createAudioPlayer, createAudioResource, getVoiceConnection, VoiceConnection, AudioPlayerStatus } from '@discordjs/voice'
 import Module from '../utils/module'
 import { boundClass } from 'autobind-decorator'
-import ytdl from 'ytdl-core'
+import play from 'play-dl'
 
 
 class Player {
@@ -24,11 +24,11 @@ class Player {
   readonly queue: string[] = []
   private current: string | null = null
 
-  addQueue(id: string) {
+  async addQueue(id: string) {
     this.queue.push(id)
-    this.playNext()
+    await this.playNext()
   }
-  playNext() {
+  async playNext() {
     if (this.player.state.status !== AudioPlayerStatus.Idle) return
     const id = this.queue.shift()
     if (!id) {
@@ -38,8 +38,11 @@ class Player {
     }
     this.current = id
 
-    const audio = ytdl(id, { filter: 'audioonly', quality: 'highestaudio' })
-    const resource = createAudioResource(audio)
+    // const audio = ytdl(id, { filter: 'audioonly', quality: 'highestaudio' })
+    const { stream } = await play.stream(id, {
+      discordPlayerCompatibility: true,
+    })
+    const resource = createAudioResource(stream)
     this.player.play(resource)
   }
   skip() {
