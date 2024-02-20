@@ -82,7 +82,7 @@ export default class YoutubePlay extends Module {
       const arr = msg.content.split(' ')
       arr.shift()
       const url = arr.join(' ')
-      const ytregex = /https:\/\/(www.|music.)?(youtube\.com|youtu\.be)\/(watch\?v=)?(?<id>[0-9a-zA-Z_-]+)(\?&)?/g
+      const ytregex = /https:\/\/(www.|music.|m.)?(youtube\.com|youtu\.be)\/(watch\?v=)?(?<id>[0-9a-zA-Z_-]+)(\?&)?/g
       const match = ytregex.exec(url)
       if (!match) {
         msg.channel.send('Invalid URL')
