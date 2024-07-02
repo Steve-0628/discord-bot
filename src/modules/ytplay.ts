@@ -23,6 +23,7 @@ class Player {
   private player = createAudioPlayer()
   readonly queue: string[] = []
   private current: string | null = null
+  private loop = false
 
   async addQueue(id: string) {
     this.queue.push(id)
@@ -30,16 +31,18 @@ class Player {
   }
   async playNext() {
     if (this.player.state.status !== AudioPlayerStatus.Idle) return
-    const id = this.queue.shift()
-    if (!id) {
-      this.current = null
-      this.player.stop()
-      return
+    if (!this.loop) {
+      const id = this.queue.shift()
+      if (!id) {
+        this.current = null
+        this.player.stop()
+        return
+      }
+      this.current = id
     }
-    this.current = id
 
     // const audio = ytdl(id, { filter: 'audioonly', quality: 'highestaudio' })
-    const { stream } = await play.stream(id, {
+    const { stream } = await play.stream(this.current as string, {
       discordPlayerCompatibility: true,
     })
     const resource = createAudioResource(stream)
@@ -53,7 +56,11 @@ class Player {
     this.channel?.destroy()
   }
   getQueue() {
-    return { current: this.current, queue: this.queue }
+    return { current: this.current, queue: this.queue, loop: this.loop }
+  }
+  toggleLoop() {
+    this.loop = !this.loop
+    return this.loop
   }
 
 }
@@ -118,8 +125,13 @@ export default class YoutubePlay extends Module {
         return true
       }
       if (msg.content.toLowerCase().startsWith('!queue') && msg.channel instanceof VoiceChannel ) {
-        const { current, queue } = instance.getQueue()
-        msg.channel.send(`Current: ${current}, Queue: ${queue.join(', ')}`)
+        const { current, queue, loop } = instance.getQueue()
+        msg.channel.send(`Current: ${current}, Queue: ${queue.join(', ')}, Loop: ${loop}`)
+        return true
+      }
+      if (msg.content.toLowerCase().startsWith('!loop') && msg.channel instanceof VoiceChannel ) {
+        const current = instance.toggleLoop()
+        msg.channel.send(`Toggled loop: ${current}`)
         return true
       }
     }
