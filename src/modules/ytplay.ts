@@ -49,6 +49,7 @@ class Player {
     this.player.play(resource)
   }
   skip() {
+    this.loop = false
     this.player.stop()
     this.playNext()
   }
@@ -120,8 +121,9 @@ export default class YoutubePlay extends Module {
         return true
       }
       if (msg.content.toLowerCase().startsWith('!skip') && msg.channel instanceof VoiceChannel ) {
+        const { current, loop } = instance.getQueue()
+        msg.channel.send(`Skipped: ${current}, ${loop ? 'Loop turned off' : ''}`)
         instance.skip()
-        msg.channel.send(`Skipped: ${instance.getQueue().current}`)
         return true
       }
       if (msg.content.toLowerCase().startsWith('!queue') && msg.channel instanceof VoiceChannel ) {
